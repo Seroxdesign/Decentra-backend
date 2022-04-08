@@ -8,7 +8,7 @@ import "hardhat-gas-reporter";
 import "solidity-coverage";
 
 dotenv.config();
-
+const { RINKEBY_API_URL, PRIVATE_KEY, ETHERSCAN_API_KEY } = process.env;
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
@@ -24,7 +24,12 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 
 const config: HardhatUserConfig = {
   solidity: "0.8.4",
+  defaultNetwork: "rinkeby",
   networks: {
+    rinkeby: {
+      url: RINKEBY_API_URL,
+      accounts: [PRIVATE_KEY] || undefined,
+    },
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
       accounts:
