@@ -2,6 +2,10 @@
 
 - Images and JSON metadata hosted on IPFS using Pinata
 
+- Deploy the NFT contract on Rinkeby testnet
+```
+npx hardhat run scripts/deploy.ts --network rinkeby
+```
 
 ## Commands to create the Hardhat Project
 
