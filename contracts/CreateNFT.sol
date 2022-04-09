@@ -15,7 +15,17 @@ contract DecentraNFT is ERC721URIStorage {
 
     string public baseTokenURI;
 
-    constructor() ERC721("DcentraNFT", "DNFT") {}
+    constructor(string memory baseURI) ERC721("DcentraNFT", "DNFT") {
+        setBaseURI(baseURI);
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseTokenURI;
+    }
+
+    function setBaseURI(string memory _baseTokenURI) public onlyOwner {
+        baseTokenURI = _baseTokenURI;
+    }
 
     function mintNFT(address recipient, string memory tokenURI)
         public
