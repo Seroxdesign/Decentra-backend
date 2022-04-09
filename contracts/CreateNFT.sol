@@ -75,13 +75,11 @@ contract DecentraNFT is ERC721URIStorage {
 
         return tokensId;
     }
+
+    function withdraw() public payable onlyOwner {
+        uint256 balance = address(this).balance;
+        require(balance > 0, "No ether left to withdraw");
+        (bool success, ) = (msg.sender).call{value: balance}("");
+        require(success, "Transfer failed.");
+    }
 }
-
-//     function withdraw() public payable onlyOwner {
-//         uint256 balance = address(this).balance;
-//         require(balance > 0, "No ether left to withdraw");
-
-//         (bool success, ) = (msg.sender).call{value: balance}("");
-//         require(success, "Transfer failed.");
-//     }
-// }
