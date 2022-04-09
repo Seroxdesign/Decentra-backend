@@ -18,7 +18,7 @@ contract DecentraNFT is ERC721Enumerable, Ownable {
 
     string public baseTokenURI;
 
-    constructor(string memory baseURI) ERC721("DcentraNFT", "DNFT") {
+    constructor(string memory baseURI) ERC721("DecentraNFT", "DNFT") {
         setBaseURI(baseURI);
     }
 
