@@ -28,7 +28,9 @@ const config: HardhatUserConfig = {
   networks: {
     rinkeby: {
       url: RINKEBY_API_URL,
-      accounts: [PRIVATE_KEY] || undefined,
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      // accounts: process.env.PRIVATE_KEY,  // compile error
     },
     ropsten: {
       url: process.env.ROPSTEN_URL || "",
