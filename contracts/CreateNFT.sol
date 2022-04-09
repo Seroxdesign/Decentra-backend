@@ -12,19 +12,27 @@ contract DecentraNFT is ERC721URIStorage {
     uint256 public constant MAX_SUPPLY = 100;
     uint256 public constant PRICE = 0.01 ether;
     uint256 public constant MAX_PER_MINT = 5;
-
+    uint256 public constant RESERVED_NFTS = 10;
     string public baseTokenURI;
 
     constructor(string memory baseURI) ERC721("DcentraNFT", "DNFT") {
         setBaseURI(baseURI);
     }
 
+    function setBaseURI(string memory _baseTokenURI) public onlyOwner {
+        baseTokenURI = _baseTokenURI;
+    }
+
     function _baseURI() internal view virtual override returns (string memory) {
         return baseTokenURI;
     }
 
-    function setBaseURI(string memory _baseTokenURI) public onlyOwner {
-        baseTokenURI = _baseTokenURI;
+    function reserveNFTs() public onlyOwner {
+        uint256 totalMinted = _tokenIds.current();
+        require(totalMinted + RESERVED_NFTS < MAX_SUPPLY, "Not enough NFTs");
+        for (uint256 i = 0; i < RESERVED_NFTS; i++) {
+            _mint(_owner, i); //   _mintSingleNFT();
+        }
     }
 
     function mintNFT(address recipient, string memory tokenURI)
