@@ -3,9 +3,20 @@
 - Images and JSON metadata hosted on IPFS using Pinata
 
 - Deploy the NFT contract on Rinkeby testnet
+
 ```
 npx hardhat run scripts/deploy.ts --network rinkeby
 ```
+
+- Verify the contract on Etherscan
+
+```
+npx hardhat clean
+npx hardhat verify --network rinkeby DEPLOYED_CONTRACT_ADDRESS "BASE_TOKEN_URI"
+```
+
+being BASE_TOKEN_URI something similar to "ipfs://ALPHANUMERIC_CODE/"
+
 
 ## Commands to create the Hardhat Project
 
