@@ -19,14 +19,6 @@ contract DecentraNFT is ERC721URIStorage {
         setBaseURI(baseURI);
     }
 
-    function setBaseURI(string memory _baseTokenURI) public onlyOwner {
-        baseTokenURI = _baseTokenURI;
-    }
-
-    function _baseURI() internal view virtual override returns (string memory) {
-        return baseTokenURI;
-    }
-
     function reserveNFTs() public onlyOwner {
         uint256 totalMinted = _tokenIds.current();
         require(totalMinted + RESERVED_NFTS < MAX_SUPPLY, "Not enough NFTs");
@@ -35,20 +27,39 @@ contract DecentraNFT is ERC721URIStorage {
         }
     }
 
-    function mintNFT(address recipient, string memory tokenURI)
-        public
-        returns (uint256)
-    {
-        _tokenIds.increment();
+    // The owner can change the baseTokenURI even after the contract has been deployed
+    function setBaseURI(string memory _baseTokenURI) public onlyOwner {
+        baseTokenURI = _baseTokenURI;
+    }
 
-        uint256 newItemId = _tokenIds.current();
-        _mint(recipient, newItemId); // or _safeMint ??
-        _setTokenURI(newItemId, tokenURI);
+    function mintNFTs(uint256 _count) public payable {
+        // (address recipient, string memory tokenURI)
 
-        return newItemId;
+        uint256 totalMinted = _tokenIds.current();
+
+        require(totalMinted + _count <= MAX_SUPPLY, "Not enough NFTs!");
+        require(
+            _count > 0 && _count <= MAX_PER_MINT,
+            "Cannot mint specified number of NFTs."
+        );
+        require(
+            msg.value >= PRICE * _count,
+            "Not enough ether to purchase NFTs."
+        );
+
+        // uint256 newItemId = _tokenIds.current();
+        // _mint(recipient, newItemId); // or _safeMint ??
+        // _setTokenURI(newItemId, tokenURI);
+
+        for (uint256 i = 0; i < _count; i++) {
+            _mintSingleNFT();
+        }
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseTokenURI;
     }
 }
-
 //     function tokensOfOwner(address _owner)
 //         external
 //         view
