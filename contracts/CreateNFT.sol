@@ -23,7 +23,7 @@ contract DecentraNFT is ERC721URIStorage {
         uint256 totalMinted = _tokenIds.current();
         require(totalMinted + RESERVED_NFTS < MAX_SUPPLY, "Not enough NFTs");
         for (uint256 i = 0; i < RESERVED_NFTS; i++) {
-            _mint(_owner, i); //   _mintSingleNFT();
+            _mintSingleNFT();
         }
     }
 
@@ -47,10 +47,6 @@ contract DecentraNFT is ERC721URIStorage {
             "Not enough ether to purchase NFTs."
         );
 
-        // uint256 newItemId = _tokenIds.current();
-        // _mint(recipient, newItemId); // or _safeMint ??
-        // _setTokenURI(newItemId, tokenURI);
-
         for (uint256 i = 0; i < _count; i++) {
             _mintSingleNFT();
         }
@@ -58,6 +54,12 @@ contract DecentraNFT is ERC721URIStorage {
 
     function _baseURI() internal view virtual override returns (string memory) {
         return baseTokenURI;
+    }
+
+    function _mintSingleNFT() private {
+        uint256 newTokenID = _tokenIds.current();
+        _safeMint(msg.sender, newTokenID);
+        _tokenIds.increment();
     }
 }
 //     function tokensOfOwner(address _owner)
