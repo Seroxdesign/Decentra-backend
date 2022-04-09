@@ -1,18 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "hardhat/console.sol";
 
-contract DecentraNFT is ERC721URIStorage {
+contract DecentraNFT is ERC721Enumerable, Ownable {
     using Counters for Counters.Counter;
+
     Counters.Counter private _tokenIds;
+
     uint256 public constant MAX_SUPPLY = 100;
     uint256 public constant PRICE = 0.01 ether;
     uint256 public constant MAX_PER_MINT = 5;
     uint256 public constant RESERVED_NFTS = 10;
+
     string public baseTokenURI;
 
     constructor(string memory baseURI) ERC721("DcentraNFT", "DNFT") {
@@ -33,8 +36,6 @@ contract DecentraNFT is ERC721URIStorage {
     }
 
     function mintNFTs(uint256 _count) public payable {
-        // (address recipient, string memory tokenURI)
-
         uint256 totalMinted = _tokenIds.current();
 
         require(totalMinted + _count <= MAX_SUPPLY, "Not enough NFTs!");
