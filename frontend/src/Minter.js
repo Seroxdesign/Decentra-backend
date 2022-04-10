@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { connectWallet, getCurrentWalletConnected } from "./utils/interact";
+import { connectWallet, getCurrentWalletConnected, addWalletListener } from "./utils/interact";
 
 const Minter = (props) => {
 
@@ -14,6 +14,8 @@ const Minter = (props) => {
         const { address, status } = await getCurrentWalletConnected();
         setWallet(address);
         setStatus(status);
+
+        addWalletListener();
     }, []);
 
     const connectWalletPressed = async () => {
