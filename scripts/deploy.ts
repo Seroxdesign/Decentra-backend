@@ -13,8 +13,8 @@ async function main() {
   // manually to make sure everything is compiled
   // await hre.run('compile');
 
-  const baseTokenURI = "ipfs://QmeJmg1pPgiUDYoNZ264g8CkCZjbbgshmWrEWFiyQknEjN/";
-
+  const baseTokenURI = "ipfs://QmNVntxg39etjVYbzmVUXyCU8Q5JGHoSUmcAr1FxVrvqvs/";
+  
   // Get owner/deployer's wallet address
   const [owner] = await ethers.getSigners();
 
